@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Paciente {
+  id            String    @id
+  nombre        String
+  edad          Int
+  sexo          String?
+  brazo         String?
+  terapia       String?
+  duracionMin   Int       @default(20)
+  observaciones String?
+  creadoEn      DateTime  @default(now())
+  sesiones      Sesion[]
+}
+
+model Sesion {
+  id                   String   @id
+  pacienteId           String
+  pacienteNombre       String
+  fecha                DateTime @default(now())
+  terapia              String?
+  duracionSeg          Int      @default(0)
+  repeticiones         Int      @default(0)
+  rmsPromedio          Float    @default(0)
+  anguloPromedio       Float    @default(0)
+  fuerzaMaxima         Float    @default(0)
+  temperaturaPromedio  Float    @default(0)
+
+  paciente Paciente @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+}
+
+model Dispositivo {
+  id       Int      @id @default(autoincrement())
+  nombre   String
+  estado   String   @default("Desconectado")
+  creadoEn DateTime @default(now())
+}

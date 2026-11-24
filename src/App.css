@@ -1,0 +1,127 @@
+.brand__mark {
+  display: grid;
+  width: 45px;
+  height: 45px;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.brand__mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.brand {
+  text-decoration: none;
+}
+
+.landing__nav .dot-only {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--motrix-turquoise);
+}
+
+.registro__nav {
+  padding: 0;
+}
+
+.nav-item {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.dashboard-chart-placeholder {
+  display: grid;
+  min-height: 260px;
+  place-items: center;
+  padding: 24px;
+  color: var(--slate);
+  text-align: center;
+  background:
+    linear-gradient(rgba(11, 95, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11, 95, 255, 0.035) 1px, transparent 1px),
+    var(--white);
+  background-size: 32px 32px;
+  border-radius: var(--r-md);
+}
+
+.field-error[role='alert'] {
+  margin-top: 12px;
+  color: var(--danger);
+}
+
+.form-field__label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-field__label .req {
+  color: var(--motrix-blue);
+}
+
+.ctrl-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+@media (max-width: 768px) {
+  .topbar__right .chip:not(.clock) {
+    display: none;
+  }
+}
+
+/* ---------- Fase 1: vistas conectadas a la API ---------- */
+.notice {
+  margin: 0 0 16px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.notice--success {
+  background: var(--success-bg);
+  color: #16864a;
+}
+
+.notice--error {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.module-form .form-actions-full {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.field-error-text {
+  color: var(--danger);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.module-form input[aria-invalid='true'] {
+  border-color: var(--danger);
+}
+
+.module-btn:disabled,
+.table-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+
+.module-search {
+  flex: 1 1 220px;
+}
