@@ -2,7 +2,7 @@
   "name": "motrix-emg",
   "version": "2.0.0",
   "private": true,
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start": "node server/index.cjs",
     "dev": "concurrently \"node --watch server/index.cjs\" \"vite\"",
@@ -10,21 +10,20 @@
     "dev:client": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "db:migrate": "node scripts/migrate.js",
+    "db:migrate": "node scripts/migrate.cjs",
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",
-    "admin:crear": "node scripts/crear-admin.js",
+    "admin:crear": "node scripts/crear-admin.cjs",
     "clave:maestra": "node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\"",
     "test": "node --test tests/*.test.js",
     "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "6.19.3",
-    "better-sqlite3": "^11.10.0",
+    "sqlite3": "^5.1.7",
     "chart.js": "^4.6.2",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.6.1",
-    "exceljs": "^4.4.0",
     "express": "^4.22.3",
     "helmet": "^8.3.0",
     "mqtt": "^5.16.1",
@@ -35,7 +34,6 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
-    "aedes": "^0.51.3",
     "concurrently": "^8.2.2",
     "prisma": "6.19.3",
     "vite": "^5.2.0"
