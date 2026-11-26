@@ -1,5 +1,19 @@
+// ======================================================================
+// MOTRIX — Esquema de datos (Prisma + SQLite)
+//
+// Cambios respecto a la versión original (ver prisma/migrations):
+//   * engineType = "client": cliente Prisma sin motor Rust, usa el
+//     adaptador better-sqlite3 (server/db.js). Lee y escribe las fechas
+//     en el mismo formato (epoch ms) que la base existente.
+//   * Nuevas tablas: Usuario, SesionAcceso, TokenRecuperacion, Auditoria.
+//   * Paciente.responsableId, Sesion.registradaPorId y Sesion.dispositivoId
+//     son opcionales: los registros históricos siguen siendo válidos.
+//   * Dispositivo se amplía con identificación y estado de conexión.
+// ======================================================================
+
 generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client-js"
+  engineType = "client"
 }
 
 datasource db {
@@ -8,37 +22,129 @@ datasource db {
 }
 
 model Paciente {
-  id            String    @id
+  id            String   @id
   nombre        String
   edad          Int
   sexo          String?
   brazo         String?
   terapia       String?
-  duracionMin   Int       @default(20)
+  duracionMin   Int      @default(20)
   observaciones String?
-  creadoEn      DateTime  @default(now())
+  creadoEn      DateTime @default(now())
+  responsableId String?
+  responsable   Usuario? @relation("PacienteResponsable", fields: [responsableId], references: [id], onDelete: SetNull)
   sesiones      Sesion[]
+
+  @@index([responsableId])
 }
 
 model Sesion {
-  id                   String   @id
-  pacienteId           String
-  pacienteNombre       String
-  fecha                DateTime @default(now())
-  terapia              String?
-  duracionSeg          Int      @default(0)
-  repeticiones         Int      @default(0)
-  rmsPromedio          Float    @default(0)
-  anguloPromedio       Float    @default(0)
-  fuerzaMaxima         Float    @default(0)
-  temperaturaPromedio  Float    @default(0)
+  id                  String   @id
+  pacienteId          String
+  pacienteNombre      String
+  fecha               DateTime @default(now())
+  terapia             String?
+  duracionSeg         Int      @default(0)
+  repeticiones        Int      @default(0)
+  rmsPromedio         Float    @default(0)
+  anguloPromedio      Float    @default(0)
+  fuerzaMaxima        Float    @default(0)
+  temperaturaPromedio Float    @default(0)
+  registradaPorId     String?
+  dispositivoId       Int?
 
-  paciente Paciente @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+  paciente      Paciente     @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+  registradaPor Usuario?     @relation("SesionRegistradaPor", fields: [registradaPorId], references: [id], onDelete: SetNull)
+  dispositivo   Dispositivo? @relation(fields: [dispositivoId], references: [id], onDelete: SetNull)
+
+  @@index([fecha])
+  @@index([pacienteId])
+  @@index([registradaPorId])
+  @@index([dispositivoId])
 }
 
 model Dispositivo {
-  id       Int      @id @default(autoincrement())
-  nombre   String
-  estado   String   @default("Desconectado")
-  creadoEn DateTime @default(now())
+  id                Int       @id @default(autoincrement())
+  nombre            String
+  estado            String    @default("Desconectado")
+  creadoEn          DateTime  @default(now())
+  // Identificador único: debe coincidir con DEVICE_ID del firmware.
+  codigo            String    @unique
+  // Prefijo de tópicos de telemetría (motrix/<topicBase>/...).
+  topicBase         String    @default("paciente1")
+  descripcion       String?
+  ubicacion         String?
+  ultimaConexion    DateTime?
+  ultimoRssi        Int?
+  ip                String?
+  ssid              String?
+  mac               String?
+  firmware          String?
+  // Resultado del último cambio de red remoto. Nunca se guarda la contraseña.
+  wifiEstado        String?
+  wifiMensaje       String?
+  wifiActualizadoEn DateTime?
+  actualizadoEn     DateTime  @default(now()) @updatedAt
+  sesiones          Sesion[]
+}
+
+model Usuario {
+  id               String    @id @default(uuid())
+  nombre           String
+  usuario          String    @unique
+  correo           String    @unique
+  passwordHash     String
+  rol              String    @default("USUARIO") // ADMIN | USUARIO
+  activo           Boolean   @default(true)
+  intentosFallidos Int       @default(0)
+  bloqueadoHasta   DateTime?
+  ultimoAcceso     DateTime?
+  creadoEn         DateTime  @default(now())
+  actualizadoEn    DateTime  @default(now()) @updatedAt
+
+  sesionesAcceso SesionAcceso[]
+  tokens         TokenRecuperacion[]
+  pacientes      Paciente[]          @relation("PacienteResponsable")
+  sesiones       Sesion[]            @relation("SesionRegistradaPor")
+  auditoria      Auditoria[]
+}
+
+// Sesión de inicio de sesión (cookie). Solo se guarda el hash del token.
+model SesionAcceso {
+  id        String   @id @default(uuid())
+  tokenHash String   @unique
+  usuarioId String
+  creadoEn  DateTime @default(now())
+  expiraEn  DateTime
+  ultimoUso DateTime @default(now())
+  ip        String?
+  agente    String?
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+}
+
+// Token de recuperación de contraseña: un solo uso, caducidad corta.
+model TokenRecuperacion {
+  id        String    @id @default(uuid())
+  tokenHash String    @unique
+  usuarioId String
+  creadoEn  DateTime  @default(now())
+  expiraEn  DateTime
+  usadoEn   DateTime?
+  usuario   Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+}
+
+model Auditoria {
+  id        Int      @id @default(autoincrement())
+  fecha     DateTime @default(now())
+  usuarioId String?
+  accion    String
+  detalle   String?
+  ip        String?
+  usuario   Usuario? @relation(fields: [usuarioId], references: [id], onDelete: SetNull)
+
+  @@index([fecha])
 }

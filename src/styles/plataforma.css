@@ -1,0 +1,266 @@
+/* ======================================================================
+   MOTRIX — plataforma.css
+   Capa final del panel interno: ajusta los estilos heredados a la nueva
+   identidad (superficies planas, sin degradados decorativos) y define los
+   componentes nuevos (resumen, filtros, dispositivos, usuarios, diálogos).
+   ====================================================================== */
+
+/* -------------------- Ajustes de identidad -------------------- */
+body { font-family: var(--font-body); }
+body.cargando-sesion .dash { visibility: hidden; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.brand-link { display: inline-flex; align-items: center; gap: 10px; color: var(--motrix-blue); }
+.brand-link .brand__name { font-size: 1.45rem; font-stretch: 112%; letter-spacing: .04em; color: var(--motrix-blue); }
+.sidebar { background: #fff; backdrop-filter: none; }
+.nav-item.active { background: var(--ink); box-shadow: none; }
+.nav-item:hover:not(.active) { background: var(--bg-canvas-alt); color: var(--ink); }
+.nav-section-label { text-transform: none; letter-spacing: 0; font-size: .8rem; font-weight: 600; color: var(--slate); }
+.topbar__user .avatar, .patient-card__avatar { background: var(--motrix-blue); }
+.ctrl-btn--start { background: var(--success); box-shadow: none; }
+.ctrl-btn--pause { background: var(--warning); box-shadow: none; }
+.ctrl-btn--stop { background: var(--danger); box-shadow: none; }
+.ctrl-btn:disabled { opacity: .45; cursor: not-allowed; transform: none !important; }
+.module-btn { border-radius: 8px; font-weight: 600; transition: background-color .15s, border-color .15s; }
+.module-btn:hover { transform: none; border-color: var(--slate); }
+.module-btn.primary:hover { background: var(--ink); border-color: var(--ink); }
+.module-btn:disabled { opacity: .5; cursor: not-allowed; }
+.module-btn:focus-visible, .table-btn:focus-visible, .link-btn:focus-visible { outline: 3px solid var(--motrix-turquoise); outline-offset: 2px; }
+.module-card { border-radius: 14px; box-shadow: none; }
+.module-header h1 { font-stretch: 92%; font-weight: 650; }
+.motrix-table th { text-transform: none; letter-spacing: 0; font-size: .8rem; font-weight: 600; }
+.motrix-table .num, .motrix-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.motrix-table.compacta td { padding: 10px; }
+.motrix-table tr.fila-activa td { background: var(--motrix-turquoise-light); }
+.history-row:focus-visible { outline: 2px solid var(--motrix-turquoise); outline-offset: -2px; }
+.table-btn.primario { background: var(--ink); color: #fff; border-color: var(--ink); }
+.status-pill { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; letter-spacing: 0; }
+.status-pill.warn { background: var(--warning-bg); color: var(--warning); }
+.muted { color: var(--slate); }
+.nota { margin-top: 12px; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .88em; background: var(--bg-canvas); padding: 1px 5px; border-radius: 4px; }
+.metric-card__trend { color: var(--slate); font-weight: 500; }
+
+/* -------------------- Barra superior -------------------- */
+.topbar__titulo { font-family: var(--font-display); font-weight: 650; font-size: 1.2rem; font-stretch: 92%; }
+.topbar__sub { font-size: .8rem; color: var(--slate); }
+.selector-equipo select {
+  height: 36px; max-width: 240px; padding: 0 30px 0 12px; border-radius: 8px;
+  border: 1px solid var(--border-soft); background: #fff; color: var(--ink); font: 500 .85rem var(--font-body);
+}
+.menu-usuario { position: relative; }
+.topbar__user { cursor: pointer; text-align: left; }
+.topbar__user-text { display: flex; flex-direction: column; }
+.menu-usuario__lista {
+  position: absolute; right: 0; top: calc(100% + 8px); min-width: 220px; z-index: 60;
+  background: #fff; border: 1px solid var(--border-soft); border-radius: 10px; padding: 6px;
+  box-shadow: 0 16px 40px rgba(19, 40, 59, .16);
+}
+.menu-usuario__lista a, .menu-usuario__lista button {
+  display: block; width: 100%; text-align: left; padding: 10px 12px; border-radius: 6px;
+  font: 500 .92rem var(--font-body); color: var(--ink); background: none; border: 0; cursor: pointer;
+}
+.menu-usuario__lista a:hover, .menu-usuario__lista button:hover, .menu-usuario__lista :focus-visible { background: var(--bg-canvas); outline: none; }
+#cerrarSesion { color: var(--danger); }
+
+/* -------------------- Resumen -------------------- */
+.acciones-cabecera { display: flex; flex-wrap: wrap; gap: 10px; }
+.kpis {
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+  background: #fff; border: 1px solid var(--border-soft); border-radius: 14px; margin-bottom: 20px; overflow: hidden;
+}
+.kpi { padding: 18px 20px; border-left: 1px solid var(--border-soft); display: flex; flex-direction: column; gap: 2px; }
+.kpi:first-child { border-left: 0; }
+.kpi__valor { font: 600 2rem/1.1 var(--font-display); font-stretch: 90%; color: var(--ink); }
+.kpi__valor small { font-size: 1rem; color: var(--slate); font-weight: 500; }
+.kpi__etiqueta { font-size: .88rem; color: var(--slate); }
+.resumen__grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 20px; }
+.resumen__actividad, .resumen__ultimas { grid-column: 1; }
+.resumen__grid > section:nth-child(2) { grid-column: 2; grid-row: 1; }
+.resumen__grid > section:nth-child(3) { grid-column: 2; grid-row: 2; }
+.tarjeta-cabecera { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.tarjeta-cabecera h2 { margin: 0 0 4px; }
+.grafica-alto { position: relative; height: 260px; }
+.empty-inline { color: var(--slate); padding: 12px 0; }
+.segmentado { display: inline-flex; border: 1px solid var(--border-soft); border-radius: 8px; padding: 2px; background: var(--bg-canvas); }
+.segmentado button { border: 0; background: none; padding: 6px 10px; border-radius: 6px; font: 600 .82rem var(--font-body); color: var(--slate); cursor: pointer; }
+.segmentado button[aria-pressed="true"] { background: #fff; color: var(--ink); box-shadow: 0 1px 2px rgba(19,40,59,.12); }
+.barras { list-style: none; margin: 0; padding: 0; }
+.barras li { display: grid; grid-template-columns: minmax(90px, 1fr) 2fr auto; align-items: center; gap: 10px; padding: 8px 0; }
+.barras__nombre { font-size: .9rem; color: var(--ink); }
+.barras__pista { height: 10px; background: var(--bg-canvas); border-radius: 4px; overflow: hidden; }
+.barras__relleno { display: block; height: 100%; background: var(--motrix-turquoise); border-radius: 0 4px 4px 0; }
+.barras__valor { font-weight: 600; font-variant-numeric: tabular-nums; min-width: 2ch; text-align: right; }
+.lista-equipos { list-style: none; margin: 0; padding: 0; }
+.lista-equipos li { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--border-soft); }
+.lista-equipos li:first-child { border-top: 0; }
+.lista-equipos li > span:nth-child(2) { flex: 1; }
+.lista-equipos small { display: block; color: var(--slate); font-size: .8rem; }
+.estado-punto { display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; background: var(--slate-light); }
+.estado-punto.on { background: var(--success); box-shadow: 0 0 0 3px var(--success-bg); }
+.estado-punto.off { background: #b6c2cb; }
+.estado-punto.error { background: var(--danger); }
+.estado-punto.pendiente { background: var(--warning); animation: latir 1.2s ease-in-out infinite; }
+@keyframes latir { 50% { opacity: .35; } }
+.aviso-linea { background: var(--warning-bg); color: #7a4f0f; border-radius: 8px; padding: 10px 12px; font-size: .9rem; margin: 0 0 14px; }
+.link-btn { background: none; border: 0; padding: 0; color: var(--motrix-turquoise); font: 600 .9rem var(--font-body); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.link-btn:hover { color: var(--ink); }
+
+/* -------------------- Formularios y filtros -------------------- */
+.form-error { color: var(--danger); font-size: .9rem; margin: 0; }
+.form-error[hidden] { display: none; }
+.campo-ayuda { font-weight: 400; color: var(--slate); font-size: .8rem; }
+.filtro-inline { display: flex; align-items: center; gap: 8px; font-size: .85rem; color: var(--slate); }
+.filtro-inline select { height: 40px; border: 1px solid var(--border-soft); border-radius: 8px; padding: 0 10px; background: #fff; }
+.filtros { margin-bottom: 20px; }
+.filtros__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; }
+.filtros__grid label { display: flex; flex-direction: column; gap: 6px; font-size: .82rem; font-weight: 600; color: var(--ink-soft); }
+.filtros__grid input, .filtros__grid select { height: 40px; border: 1px solid var(--border-soft); border-radius: 8px; padding: 0 10px; background: #fff; font: inherit; color: var(--ink); }
+.filtros__busqueda { grid-column: span 2; }
+.filtros__acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-soft); }
+.filtros__acciones .module-count { margin-left: auto; }
+.module-search { border-radius: 8px; }
+.settings-grid form label, .settings-grid section label { margin-bottom: 14px; }
+.settings-actions { display: flex; justify-content: flex-end; }
+dl.detail-list { margin: 0; }
+dl.detail-list dt { color: var(--slate); }
+dl.detail-list dd { margin: 0; font-weight: 600; text-align: right; }
+.campo-con-boton { display: flex; gap: 8px; align-items: center; }
+.campo-con-boton input { flex: 1; }
+
+/* -------------------- Dispositivos -------------------- */
+.dispositivos-lista { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 20px; margin-bottom: 20px; }
+.dispositivo__cabecera { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.dispositivo__cabecera h2 { margin: 0 0 2px; }
+.dispositivo__datos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 16px; margin: 18px 0; }
+.dispositivo__datos dt { font-size: .78rem; color: var(--slate); }
+.dispositivo__datos dd { margin: 2px 0 0; font-weight: 600; overflow-wrap: anywhere; }
+.dispositivo__acciones { display: flex; flex-wrap: wrap; gap: 8px; }
+.wifi-estado { font-size: .88rem; padding: 10px 12px; border-radius: 8px; background: var(--bg-canvas); margin: 0 0 14px; }
+.wifi-estado--ok { background: var(--success-bg); }
+.wifi-estado--error { background: var(--danger-bg); }
+.wifi-estado--pendiente { background: var(--warning-bg); }
+.guia-conexion h3 { font: 600 1rem var(--font-body); margin: 0 0 6px; color: var(--ink); }
+.guia-conexion p { color: var(--slate); margin: 0; font-size: .92rem; }
+.guia-conexion__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.pestanas { display: flex; gap: 4px; border-bottom: 1px solid var(--border-soft); margin-bottom: 18px; }
+.pestanas [role="tab"] { border: 0; background: none; padding: 10px 14px; font: 600 .92rem var(--font-body); color: var(--slate); border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; }
+.pestanas [role="tab"][aria-selected="true"] { color: var(--ink); border-bottom-color: var(--motrix-turquoise); }
+.pasos { margin: 0 0 18px; padding-left: 22px; display: grid; gap: 12px; }
+.pasos li { padding-left: 4px; color: var(--ink-soft); }
+.pasos li::marker { font-weight: 700; color: var(--motrix-turquoise); }
+.pasos a { color: var(--motrix-turquoise); font-weight: 600; }
+.espera-conexion { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--bg-canvas); border-radius: 10px; font-size: .92rem; }
+.espera-conexion[hidden] { display: none; }
+pre.codigo { background: var(--ink); color: #dcefed; padding: 14px; border-radius: 8px; overflow-x: auto; font-size: .85rem; white-space: pre-wrap; word-break: break-all; }
+
+/* -------------------- Diálogo y auditoría -------------------- */
+.dialogo { border: 0; border-radius: 14px; padding: 24px; width: min(440px, calc(100% - 32px)); box-shadow: 0 24px 60px rgba(19,40,59,.25); }
+.dialogo::backdrop { background: rgba(19, 40, 59, .4); }
+.dialogo h2 { font-family: var(--font-display); margin: 0 0 8px; font-size: 1.3rem; }
+.dialogo p { color: var(--slate); margin: 0; }
+.dialogo__acciones { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+.auditoria summary { cursor: pointer; font-weight: 600; }
+.auditoria[open] summary { margin-bottom: 14px; }
+.module-container > .module-view { max-width: 1400px; }
+
+/* -------------------- Responsive -------------------- */
+@media (max-width: 1200px) {
+  .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .kpi:nth-child(4) { border-left: 0; }
+  .kpi:nth-child(n+4) { border-top: 1px solid var(--border-soft); }
+}
+@media (max-width: 1024px) {
+  .resumen__grid { grid-template-columns: minmax(0, 1fr); }
+  .resumen__grid > section { grid-column: 1 !important; grid-row: auto !important; }
+  .guia-conexion__cols { grid-template-columns: 1fr; }
+  .selector-equipo select { max-width: 160px; }
+}
+@media (max-width: 768px) {
+  .topbar__user-text, .chip.clock { display: none; }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi { border-left: 0 !important; border-top: 1px solid var(--border-soft); }
+  .kpi:nth-child(-n+2) { border-top: 0; }
+  .kpi:nth-child(even) { border-left: 1px solid var(--border-soft) !important; }
+  .dispositivo__datos { grid-template-columns: 1fr 1fr; }
+  .filtros__busqueda { grid-column: auto; }
+  .filtros__acciones .module-count { margin-left: 0; width: 100%; order: -1; }
+  .tarjeta-cabecera { flex-direction: column; }
+  .selector-equipo select { max-width: 130px; }
+}
+
+/* La línea de pulso tipo ECG no corresponde a la señal EMG del equipo. */
+.topbar__pulse { display: none; }
+
+.module-toolbar { flex-wrap: wrap; }
+.module-card { min-width: 0; }
+.motrix-table.compacta td, .motrix-table.compacta th { white-space: nowrap; }
+@media (max-width: 768px) {
+  .topbar__sub { display: none; }
+  .chip .chip-label { display: none; }
+  .module-search { width: 100%; }
+  .module-header h1 { font-size: 1.7rem; }
+}
+.table-wrap { position: relative; }
+.topbar__menu-btn { flex-shrink: 0; }
+@media (max-width: 768px) {
+  .topbar { flex-wrap: wrap; row-gap: 10px; }
+  .topbar__left { flex: 1 1 auto; }
+  .topbar__right { flex: 1 1 100%; gap: 8px; }
+  .selector-equipo { flex: 1 1 auto; min-width: 0; }
+  .selector-equipo select { max-width: none; width: 100%; }
+  .chip { padding: 8px 10px; }
+}
+
+/* ======================================================================
+   Cumplimiento de requisitos técnicos (Monitor en vivo)
+   Reutiliza .metric-card. Dos estados visuales bien distintos:
+     · referencia  → borde punteado, sin relleno: aún no hay medición.
+     · verificado  → relleno verde sólido: confirmado con una medición.
+     · no-cumple   → relleno rojo: medición fuera del límite.
+   ====================================================================== */
+.requisitos { display: flex; flex-direction: column; gap: 18px; padding-top: 8px; }
+.requisitos__cabecera { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px 24px; }
+.requisitos__cabecera h2 { font-family: var(--font-display); font-weight: 650; font-stretch: 92%; font-size: 1.35rem; color: var(--ink); margin: 0; }
+.requisitos__cabecera p { margin: 4px 0 0; color: var(--slate); font-size: .9rem; }
+.requisitos__leyenda { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: .8rem; color: var(--slate); }
+.requisitos__leyenda li { display: flex; align-items: center; gap: 8px; }
+.requisitos__grupo h3 { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; font: 600 .95rem var(--font-body); color: var(--ink-soft); }
+.requisitos__codigo { font-size: .72rem; font-weight: 600; color: var(--slate); background: var(--bg-canvas-alt); border-radius: 6px; padding: 2px 8px; font-variant-numeric: tabular-nums; }
+.requisitos__tarjetas { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; } /* 4 columnas: el grupo más grande ocupa una fila */
+@media (max-width: 1024px) { .requisitos__tarjetas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 768px) { .requisitos__tarjetas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.requisito .metric-card__label { line-height: 1.35; min-height: 2.7em; }
+.requisito__limite { display: flex; align-items: baseline; gap: 4px; }
+.requisito__op { color: var(--motrix-turquoise); font-weight: 700; margin-right: 2px; }
+.requisito__pie { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin-top: 2px; }
+.requisito__medido { font-size: .72rem; color: var(--slate); }
+
+.cumple {
+  max-width: 100%;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 10px 5px 7px; border-radius: 999px;
+  font: 700 .78rem/1 var(--font-body); white-space: nowrap;
+  border: 1.5px solid transparent;
+}
+.cumple svg { width: 16px; height: 16px; flex-shrink: 0; }
+.cumple small { font-size: .68rem; font-weight: 600; padding-left: 6px; margin-left: 2px; border-left: 1px solid currentColor; opacity: .85; }
+.cumple--referencia { color: #1d6f69; background: transparent; border-style: dashed; border-color: rgba(42, 151, 143, .65); }
+.cumple--verificado { color: #fff; background: var(--success); border-color: var(--success); }
+.cumple--verificado svg circle, .cumple--no-cumple svg circle { stroke-dasharray: none; }
+.cumple--no-cumple { color: #fff; background: var(--danger); border-color: var(--danger); }
+.cumple--mini { padding: 3px 9px; font-size: .7rem; }
+
+/* La tarjeta en estado de referencia se ve más ligera que una verificada. */
+.requisito[data-estado="referencia"] { background: rgba(255, 255, 255, .55); border: 1px dashed rgba(46, 74, 102, .22); box-shadow: none; }
+.requisito[data-estado="verificado"] { border-color: rgba(23, 162, 126, .45); }
+.requisito[data-estado="verificado"] .metric-card__icon { background: var(--success-bg); color: var(--success); }
+.requisito[data-estado="no-cumple"] { border-color: rgba(194, 65, 58, .45); }
+.requisito:hover { transform: none; }
+
+@media (max-width: 480px) {
+  .requisitos__tarjetas { gap: 12px; }
+  .requisito .metric-card__value { font-size: 1.2rem; }
+  /* En pantallas estrechas el estado pasa a una segunda línea dentro de la insignia. */
+  .requisito .cumple { flex-wrap: wrap; row-gap: 2px; border-radius: 10px; padding: 5px 9px 5px 7px; }
+  .requisito .cumple small { flex-basis: 100%; border-left: 0; margin: 0; padding-left: 22px; }
+}

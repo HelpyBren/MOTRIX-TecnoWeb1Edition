@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Ingresar — MOTRIX</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="stylesheet" href="css/sitio.css">
+</head>
+<body>
+<main class="acceso">
+  <div class="acceso__visual" aria-hidden="true">
+    <picture>
+      <source type="image/webp" srcset="assets/img/hero-1280.webp">
+      <img src="assets/img/hero-1280.jpg" alt="" style="object-position:38% 50%">
+    </picture>
+    <div class="acceso__cita">
+      <p>Cada sesión registrada, cada avance visible.</p>
+      <span>Plataforma clínica MOTRIX</span>
+    </div>
+  </div>
+  <div class="acceso__panel">
+    <a class="marca" href="index.html" aria-label="MOTRIX, volver a la portada">
+      <img src="assets/img/logo-mark.png" alt="" width="38" height="36"><span>MOTRIX</span>
+    </a>
+    <form class="acceso__form" data-form="login" novalidate>
+      <h1>Ingresar a la plataforma</h1>
+      <p>Usa la cuenta que te asignó el administrador de MOTRIX.</p>
+      <div class="aviso" id="aviso" hidden></div>
+      <div class="campo">
+        <label for="identificador">Usuario o correo electrónico</label>
+        <input id="identificador" name="identificador" type="text" autocomplete="username" required>
+      </div>
+      <div class="campo">
+        <label for="password">Contraseña</label>
+        <div class="campo__pass"><input id="password" name="password" type="password" autocomplete="current-password" required><button type="button" class="campo__ver" data-ver="password" aria-pressed="false" aria-label="Mostrar contraseña">Mostrar</button></div>
+      </div>
+      <div class="fila-entre"><a href="recuperar.html">¿Olvidaste tu contraseña?</a><a href="registrarse.html" id="enlaceRegistro" hidden>Crear cuenta</a></div>
+      <button class="btn btn--primario" type="submit">Ingresar</button>
+
+    </form>
+    <p class="acceso__pie"><a href="index.html">Volver a la portada</a></p>
+  </div>
+</main>
+<script src="js/api.js"></script>
+<script src="js/acceso.js"></script>
+</body>
+</html>

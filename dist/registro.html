@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nuevo paciente — MOTRIX</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+
+<div class="registro">
+
+  <nav class="registro__nav landing__nav" style="padding:0;">
+    <a href="dashboard.html#pacientes" class="brand" style="text-decoration:none;" aria-label="Volver al panel">
+      <div class="brand__mark"><img src="assets/img/logo-mark.png" alt="" width="40" height="38"></div>
+      <span class="brand__name" style="color:var(--motrix-blue)">MOTRIX</span>
+    </a>
+  </nav>
+
+  <div class="registro__card">
+    <div class="registro__head">
+            <h1>Registro del paciente</h1>
+      <p>Completa los datos clínicos antes de iniciar la sesión de rehabilitación con el dispositivo MOTRIX.</p>
+    </div>
+
+    <form id="formRegistro" novalidate>
+      <div class="form-grid">
+
+        <div class="form-field">
+          <label for="nombre">Nombre completo <span class="req">*</span></label>
+          <input type="text" id="nombre" name="nombre" placeholder="Ej. María Fernanda Rojas" autocomplete="off" required>
+          <div class="field-error" data-error-for="nombre"></div>
+        </div>
+
+        <div class="form-field">
+          <label for="edad">Edad <span class="req">*</span></label>
+          <input type="number" id="edad" name="edad" placeholder="Ej. 34" min="1" max="120" required>
+          <div class="field-error" data-error-for="edad"></div>
+        </div>
+
+        <div class="form-field">
+          <label for="sexo">Sexo <span class="req">*</span></label>
+          <select id="sexo" name="sexo" required>
+            <option value="" disabled selected>Selecciona una opción</option>
+            <option value="Femenino">Femenino</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Otro">Otro</option>
+          </select>
+          <div class="field-error" data-error-for="sexo"></div>
+        </div>
+
+        <div class="form-field">
+          <label>Brazo afectado <span class="req">*</span></label>
+          <div class="segmented" id="grupoBrazo">
+            <input type="radio" id="brazoDer" name="brazo" value="Derecho">
+            <label for="brazoDer">Derecho</label>
+            <input type="radio" id="brazoIzq" name="brazo" value="Izquierdo">
+            <label for="brazoIzq">Izquierdo</label>
+          </div>
+          <div class="field-error" data-error-for="brazo"></div>
+        </div>
+
+        <div class="form-field form-field--full">
+          <label>Tipo de terapia <span class="req">*</span></label>
+          <div class="segmented" id="grupoTerapia">
+            <input type="radio" id="terFlex" name="terapia" value="Flexión">
+            <label for="terFlex">Flexión-Extensión</label>
+            <input type="radio" id="terExt" name="terapia" value="Extensión">
+            <label for="terExt">Abducción-Aducción</label>
+            <input type="radio" id="terPro" name="terapia" value="Pronación">
+            <label for="terPro">Rotación interna y externa</label>
+            <input type="radio" id="terSup" name="terapia" value="Supinación">
+            <label for="terSup">Circunducción plana</label>
+          </div>
+          <div class="field-error" data-error-for="terapia"></div>
+        </div>
+
+        <div class="form-field form-field--full">
+          <label for="duracion">Duración de la sesión</label>
+          <div class="range-row">
+            <input type="range" id="duracion" name="duracion" min="5" max="60" step="5" value="20">
+            <span class="range-val" id="duracionVal">20 min</span>
+          </div>
+        </div>
+
+        <div class="form-field form-field--full">
+          <label for="observaciones">Observaciones clínicas</label>
+          <textarea id="observaciones" name="observaciones" placeholder="Antecedentes, restricciones de movimiento, notas del fisioterapeuta..."></textarea>
+        </div>
+
+      </div>
+
+      <div class="registro__footer">
+        <small>Los datos se guardan en la base de datos MOTRIX y el paciente queda asignado a tu cuenta.</small>
+        <div class="field-error" data-error-for="general" role="alert"></div>
+        <button type="submit" class="btn btn--primary" id="btnIniciar">
+          Guardar y abrir el monitor
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

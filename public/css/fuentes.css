@@ -1,0 +1,16 @@
+/* MOTRIX — Tipografías alojadas en el propio servidor (sin dependencias
+   externas: funcionan sin internet y no comparten datos con terceros).
+   Saira (variable, ancho 50–125 %) y Figtree — licencia SIL OFL 1.1,
+   ver assets/fonts/OFL-*.txt */
+@font-face {
+  font-family: "Saira";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 50% 125%;
+  src: url("../assets/fonts/saira-variable.woff2") format("woff2-variations"), url("../assets/fonts/saira-variable.woff2") format("woff2");
+}
+@font-face { font-family: "Figtree"; font-style: normal; font-display: swap; font-weight: 400; src: url("../assets/fonts/figtree-400.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-style: normal; font-display: swap; font-weight: 500; src: url("../assets/fonts/figtree-500.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-style: normal; font-display: swap; font-weight: 600; src: url("../assets/fonts/figtree-600.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-style: normal; font-display: swap; font-weight: 700; src: url("../assets/fonts/figtree-700.woff2") format("woff2"); }

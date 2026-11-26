@@ -1,0 +1,75 @@
+/* ======================================================================
+   MOTRIX — responsive.css
+   Media queries para Landing, Registro y Dashboard
+   ====================================================================== */
+
+/* ============ 1280px — laptops pequeñas ============ */
+@media (max-width: 1280px) {
+  .landing__hero { grid-template-columns: 1fr; }
+  .hero__panel { order: -1; max-width: 560px; margin: 0 auto; width: 100%; }
+  .landing__features { grid-template-columns: repeat(2, 1fr); }
+
+  .content__row-top { grid-template-columns: 1fr; }
+  .content__row-mid { grid-template-columns: 1fr; }
+  .metrics-row { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ============ 1024px — tablets ============ */
+@media (max-width: 1024px) {
+  .dash { grid-template-columns: 1fr; }
+
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0;
+    width: 264px;
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-lg);
+  }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-overlay.open { display: block; }
+
+  .topbar__menu-btn { display: flex; }
+
+  .landing__nav, .landing__hero, .landing__features { padding-left: 32px; padding-right: 32px; }
+}
+
+/* ============ 768px — móviles grandes / tablets verticales ============ */
+@media (max-width: 768px) {
+  .landing__nav { padding: 20px; }
+  .landing__nav .badge-live span:not(.dot-only) { display: none; }
+  .landing__hero { padding: 10px 20px 40px; gap: 32px; }
+  .hero__title { font-size: clamp(2.1rem, 8vw, 2.8rem); }
+  .hero__actions { flex-direction: column; align-items: stretch; }
+  .hero__stats { flex-wrap: wrap; gap: 24px; }
+  .landing__features { grid-template-columns: 1fr; padding: 0 20px 60px; }
+
+  .registro__card { padding: 30px 22px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .registro__footer { flex-direction: column-reverse; align-items: stretch; }
+  .registro__footer .btn { width: 100%; }
+
+  .topbar { padding: 14px 18px; }
+  .topbar__right .chip span.chip-label { display: none; }
+  .content { padding: 20px 16px 50px; }
+  .metrics-row { grid-template-columns: repeat(2, 1fr); }
+
+  .controls-bar { flex-direction: column; align-items: stretch; }
+  .control-buttons { justify-content: center; }
+  .ctrl-btn { flex: 1; justify-content: center; }
+
+  .patient-card__meta { grid-template-columns: repeat(2, 1fr); }
+  .status-grid { grid-template-columns: 1fr; }
+}
+
+/* ============ 480px — móviles pequeños ============ */
+@media (max-width: 480px) {
+  .brand__name { font-size: 1.1rem; }
+  .hero__stats { gap: 18px; }
+  .hero__stats .stat-num { font-size: 1.3rem; }
+  .metrics-row { grid-template-columns: 1fr 1fr; }
+  .metric-card__value { font-size: 1.25rem; }
+  .chart-tools { width: 100%; }
+  .chart-tool-btn { flex: 1; text-align: center; }
+  .toast-stack { left: 16px; right: 16px; bottom: 16px; }
+  .toast { min-width: 0; }
+}

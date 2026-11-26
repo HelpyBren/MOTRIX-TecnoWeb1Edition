@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Recuperar contraseña — MOTRIX</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="stylesheet" href="css/sitio.css">
+</head>
+<body>
+<main class="acceso">
+  <div class="acceso__visual" aria-hidden="true">
+    <picture>
+      <source type="image/webp" srcset="assets/img/hogar-retrato.webp">
+      <img src="assets/img/hogar-retrato.jpg" alt="" style="object-position:50% 30%">
+    </picture>
+    <div class="acceso__cita">
+      <p>Tu acceso, protegido en cada paso.</p>
+      <span>Plataforma clínica MOTRIX</span>
+    </div>
+  </div>
+  <div class="acceso__panel">
+    <a class="marca" href="index.html" aria-label="MOTRIX, volver a la portada">
+      <img src="assets/img/logo-mark.png" alt="" width="38" height="36"><span>MOTRIX</span>
+    </a>
+    <form class="acceso__form" data-form="recuperar" novalidate>
+      <h1>Recuperar contraseña</h1>
+      <p>Escribe el correo de tu cuenta. Te enviaremos un enlace de un solo uso para crear una contraseña nueva.</p>
+      <div class="aviso" id="aviso" hidden></div>
+      <div class="campo">
+        <label for="correo">Correo electrónico</label>
+        <input id="correo" name="correo" type="email" autocomplete="email" required>
+      </div>
+      <button class="btn btn--primario" type="submit">Enviar enlace</button>
+      <p class="fila-entre"><a href="login.html">Volver a ingresar</a></p>
+    </form>
+    <p class="acceso__pie"><a href="index.html">Volver a la portada</a></p>
+  </div>
+</main>
+<script src="js/api.js"></script>
+<script src="js/acceso.js"></script>
+</body>
+</html>

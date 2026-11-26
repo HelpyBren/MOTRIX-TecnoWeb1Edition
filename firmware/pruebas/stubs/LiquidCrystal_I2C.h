@@ -1,0 +1,3 @@
+#pragma once
+#include "Arduino.h"
+struct LiquidCrystal_I2C { LiquidCrystal_I2C(uint8_t, uint8_t, uint8_t) {} void init() {} void backlight() {} void clear() {} void setCursor(int, int) {} void print(const char*) {} void print(const String&) {} };

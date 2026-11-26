@@ -3,38 +3,38 @@
    Variables globales, reset y estilos de Landing Page + Registro
    ====================================================================== */
 
-/* -------------------- Google Fonts -------------------- */
-/* Space Grotesk: titulares técnicos | Inter: UI general | JetBrains Mono: telemetría */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url("fuentes.css");
 
 /* ======================================================================
-   VARIABLES GLOBALES (Design Tokens)
+   VARIABLES GLOBALES (Design Tokens) — identidad MOTRIX 2.0
+   Se conservan los nombres originales de las variables para que todo el
+   CSS existente del dashboard herede la nueva paleta sin reescribirse.
    ====================================================================== */
 :root {
   /* --- Paleta de color principal --- */
-  --motrix-blue: #2d8ae1;
-  --motrix-blue-dark: #0f3077;
-  --motrix-blue-light: #dce6f6;
-  --motrix-turquoise: #afddd9;
-  --motrix-turquoise-light: #E3FBF8;
+  --motrix-blue: #2e4a66;          /* azul pizarra del logotipo */
+  --motrix-blue-dark: #13283b;
+  --motrix-blue-light: #e3ebf0;
+  --motrix-turquoise: #2a978f;     /* verde azulado de la marca */
+  --motrix-turquoise-light: #dcefed;
 
-  /* --- Neutros / superficie --- */
-  --bg-canvas: #F5F8FB;
-  --bg-canvas-alt: #EEF3F8;
-  --ink: #0B1F3A;
-  --ink-soft: #1F3A5F;
-  --slate: #64748B;
+/* --- Neutros / superficie --- */
+  --bg-canvas: #EEF2F3;
+  --bg-canvas-alt: #E4EAEC;
+  --ink: #13283B;
+  --ink-soft: #2E4A66;
+  --slate: #5B6F80;
   --slate-light: #94A3B8;
-  --border-soft: rgba(11, 31, 58, 0.08);
+  --border-soft: rgba(19, 40, 59, 0.10);
   --white: #FFFFFF;
 
   /* --- Estados clínicos --- */
-  --success: #1FCB6B;
-  --success-bg: #E7FBEF;
-  --warning: #FFB020;
-  --warning-bg: #FFF6E5;
-  --danger: #FF4757;
-  --danger-bg: #FFEBED;
+  --success: #17A27E;
+  --success-bg: #E2F4EE;
+  --warning: #B7791F;
+  --warning-bg: #FBF1DF;
+  --danger: #C2413A;
+  --danger-bg: #FBECEB;
 
   /* --- Glassmorphism --- */
   --glass-bg: rgba(255, 255, 255, 0.62);
@@ -43,9 +43,9 @@
   --glass-blur: blur(20px);
 
   /* --- Tipografía --- */
-  --font-display: 'Space Grotesk', 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Saira', 'Figtree', sans-serif;
+  --font-body: 'Figtree', system-ui, sans-serif;
+  --font-mono: 'Figtree', system-ui, sans-serif; /* cifras tabulares, ver body */
 
   /* --- Radios --- */
   --r-sm: 10px;
@@ -58,8 +58,8 @@
   --shadow-sm: 0 2px 8px rgba(11, 31, 58, 0.06);
   --shadow-md: 0 8px 24px rgba(11, 31, 58, 0.08), 0 2px 6px rgba(11, 31, 58, 0.04);
   --shadow-lg: 0 20px 48px rgba(11, 31, 58, 0.12), 0 6px 16px rgba(11, 31, 58, 0.06);
-  --shadow-glow-blue: 0 0 0 1px rgba(11, 95, 255, 0.08), 0 12px 32px rgba(11, 95, 255, 0.18);
-  --shadow-glow-turquoise: 0 0 24px rgba(18, 199, 184, 0.35);
+  --shadow-glow-blue: 0 0 0 1px rgba(46, 74, 102, 0.10), 0 12px 28px rgba(19, 40, 59, 0.16);
+  --shadow-glow-turquoise: 0 0 0 3px rgba(42, 151, 143, 0.18);
 
   /* --- Transiciones --- */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -92,6 +92,7 @@ body {
   line-height: 1.5;
   min-height: 100vh;
   overflow-x: hidden;
+  font-variant-numeric: tabular-nums;
 }
 
 img, svg { display: block; max-width: 100%; }
@@ -146,14 +147,13 @@ textarea:focus-visible {
   position: fixed;
   inset: 0;
   z-index: -2;
-  background-image:
-    linear-gradient(rgba(11, 95, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(11, 95, 255, 0.035) 1px, transparent 1px);
+  background-image: none;
   background-size: 48px 48px;
   pointer-events: none;
 }
 
 .glow-orb {
+  display: none;
   position: fixed;
   border-radius: 50%;
   filter: blur(90px);

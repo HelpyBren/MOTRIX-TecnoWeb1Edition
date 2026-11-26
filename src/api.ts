@@ -7,11 +7,11 @@ import type {
   SesionInput,
 } from './types'
 
-// En local usa http://localhost:3000/api. Al desplegar, define VITE_API_URL
-// (por ejemplo https://mi-api.onrender.com/api) antes de hacer el build.
+// En local usa el proxy de Vite (/api -> http://localhost:3001/api).
+// Al desplegar, define VITE_API_URL (p. ej. https://mi-api.onrender.com/api).
 const API_URL =
   (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/+$/, '') ||
-  'http://localhost:3000/api'
+  '/api'
 
 export class ApiError extends Error {}
 

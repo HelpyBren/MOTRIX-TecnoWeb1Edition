@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Nueva contraseña — MOTRIX</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="stylesheet" href="css/sitio.css">
+</head>
+<body>
+<main class="acceso">
+  <div class="acceso__visual" aria-hidden="true">
+    <picture>
+      <source type="image/webp" srcset="assets/img/hogar-retrato.webp">
+      <img src="assets/img/hogar-retrato.jpg" alt="" style="object-position:50% 30%">
+    </picture>
+    <div class="acceso__cita">
+      <p>Tu acceso, protegido en cada paso.</p>
+      <span>Plataforma clínica MOTRIX</span>
+    </div>
+  </div>
+  <div class="acceso__panel">
+    <a class="marca" href="index.html" aria-label="MOTRIX, volver a la portada">
+      <img src="assets/img/logo-mark.png" alt="" width="38" height="36"><span>MOTRIX</span>
+    </a>
+    <form class="acceso__form" data-form="restablecer" novalidate>
+      <h1>Crea una contraseña nueva</h1>
+      <p>Al guardarla se cerrarán las sesiones abiertas en otros dispositivos.</p>
+      <div class="aviso" id="aviso" hidden></div>
+      <div class="campo">
+        <label for="password">Contraseña nueva</label>
+        <div class="campo__pass"><input id="password" name="password" type="password" autocomplete="new-password" required aria-describedby="password-ayuda"><button type="button" class="campo__ver" data-ver="password" aria-pressed="false" aria-label="Mostrar contraseña">Mostrar</button></div>
+        <span class="campo__ayuda" id="password-ayuda">Mínimo 8 caracteres, con letras y números.</span>
+      </div>
+      <div class="campo">
+        <label for="confirmar">Repite la contraseña</label>
+        <div class="campo__pass"><input id="confirmar" name="confirmar" type="password" autocomplete="new-password" required><button type="button" class="campo__ver" data-ver="confirmar" aria-pressed="false" aria-label="Mostrar contraseña">Mostrar</button></div>
+      </div>
+      <button class="btn btn--primario" type="submit">Guardar contraseña</button>
+      <p class="fila-entre"><a href="recuperar.html">Solicitar otro enlace</a></p>
+    </form>
+    <p class="acceso__pie"><a href="index.html">Volver a la portada</a></p>
+  </div>
+</main>
+<script src="js/api.js"></script>
+<script src="js/acceso.js"></script>
+</body>
+</html>
