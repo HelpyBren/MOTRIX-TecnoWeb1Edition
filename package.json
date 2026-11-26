@@ -10,7 +10,7 @@
     "dev:client": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "db:migrate": "node scripts/migrate.cjs",
+    "db:migrate": "node scripts/migrate.js",
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",
     "admin:crear": "node scripts/crear-admin.cjs",
