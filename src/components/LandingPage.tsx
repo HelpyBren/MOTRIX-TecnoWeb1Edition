@@ -152,7 +152,6 @@ export function LandingPage() {
             <div>
               <h2 className="seccion__titulo" id="nosotros-titulo">Ingeniería al servicio de la fisioterapia</h2>
               <dl className="definiciones">
-                <span className="provisional">Texto provisional</span>
                 <div><dt>Quiénes somos</dt><dd>Somos el equipo que diseña, construye y programa MOTRIX: mecánica, electrónica, firmware y software reunidos en un solo proyecto.</dd></div>
                 <div><dt>Qué buscamos</dt><dd>Que la rehabilitación de miembro superior pueda guiarse y medirse fuera de los grandes centros: en un consultorio, en un hospital rural o en casa.</dd></div>
                 <div><dt>Visión</dt><dd>Una terapia física en la que cada decisión clínica se apoye en datos objetivos del movimiento y de la actividad muscular del paciente.</dd></div>
@@ -314,7 +313,6 @@ export function LandingPage() {
             </div>
             <div>
               <h3>Contacto</h3>
-              <span className="provisional">Texto provisional</span>
               <ul>
                 <li><a href="mailto:contacto@ejemplo.com">contacto@ejemplo.com</a></li>
                 <li>Ciudad, país</li>

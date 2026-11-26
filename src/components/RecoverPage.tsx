@@ -24,8 +24,7 @@ export function RecoverPage() {
     setLoading(true)
 
     try {
-      // Call the recover password API
-      // For now, just show success
+      await api.auth.recover(correo)
       setSuccess(true)
     } catch (err) {
       setError(errorMessage(err))

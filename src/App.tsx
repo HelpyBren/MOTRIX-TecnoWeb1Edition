@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { LandingPage } from './components/LandingPage'
 import { LoginPage } from './components/LoginPage'
 import { RegisterPage } from './components/RegisterPage'
@@ -7,6 +7,7 @@ import { ResetPasswordPage } from './components/ResetPasswordPage'
 import { PatientRegistrationPage } from './components/PatientRegistrationPage'
 import { DashboardPage } from './components/DashboardPage'
 import { NotFoundPage } from './components/NotFoundPage'
+import { RouteGuard } from './components/RouteGuard'
 import './styles/style.css'
 import './styles/dashboard.css'
 import './styles/modules.css'
@@ -24,7 +25,11 @@ function App() {
         <Route path="/recuperar" element={<RecoverPage />} />
         <Route path="/restablecer" element={<ResetPasswordPage />} />
         <Route path="/registro" element={<PatientRegistrationPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/dashboard" element={
+          <RouteGuard>
+            <DashboardPage />
+          </RouteGuard>
+        } />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

@@ -42,7 +42,24 @@ export type Dispositivo = {
   id: number
   nombre: string
   estado: string
+  codigo: string
+  topicBase: string
   creadoEn: string
 }
 
-export type DispositivoInput = Pick<Dispositivo, 'nombre' | 'estado'>
+export type Usuario = {
+  id: string
+  nombre: string
+  usuario: string
+  correo: string
+  rol: string
+  mqttConnected?: boolean
+  esp32Connected?: boolean
+}
+
+export type DispositivoInput = {
+  nombre: string
+  estado?: string
+  codigo: string
+  topicBase: string
+}

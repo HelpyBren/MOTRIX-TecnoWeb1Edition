@@ -47,8 +47,12 @@ export function RegisterPage() {
     setLoading(true)
 
     try {
-      // Call the register API - we need to add this to api.ts
-      // For now, just navigate to login
+      await api.auth.register({
+        nombre: formData.nombre,
+        usuario: formData.usuario,
+        correo: formData.correo,
+        password: formData.password,
+      })
       navigate('/login?registered=true')
     } catch (err) {
       setError(errorMessage(err))

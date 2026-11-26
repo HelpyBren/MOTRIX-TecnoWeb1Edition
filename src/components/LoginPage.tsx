@@ -1,6 +1,7 @@
 import { useState, FormEvent, ChangeEvent } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { api, errorMessage } from '../api'
+import { useAuth } from '../context/AuthContext'
 import logoMark from '../assets/logo_motrix.png'
 import heroDesktop from '/assets/img/hero-1280.jpg'
 import heroDesktopWebp from '/assets/img/hero-1280.webp'
@@ -8,6 +9,7 @@ import '../styles/sitio.css'
 
 export function LoginPage() {
   const navigate = useNavigate()
+  const { login } = useAuth()
   const [searchParams] = useSearchParams()
   const next = searchParams.get('next') || '/dashboard'
 
@@ -23,10 +25,7 @@ export function LoginPage() {
     setLoading(true)
 
     try {
-      await api.pacientes.list()
-      // The API doesn't have a login endpoint in the current api.ts
-      // We'll simulate the login for now and navigate
-      // In a real app, you'd call the actual login API
+      await login(identificador, password)
       navigate(next)
     } catch (err) {
       setError(errorMessage(err))
@@ -57,8 +56,8 @@ export function LoginPage() {
         <form className="acceso__form" data-form="login" noValidate onSubmit={handleSubmit}>
           <h1>Ingresar a la plataforma</h1>
           <p>Usa la cuenta que te asignó el administrador de MOTRIX.</p>
-          <div className={`aviso${error ? ' aviso--error' : ''}`} id="aviso" hidden={!error}>
-            {error}
+          <div className={`aviso${error ? ' aviso--error' : searchParams.get('registered') ? ' aviso--ok' : ''}`} id="aviso" hidden={!error && !searchParams.get('registered')}>
+            {error || (searchParams.get('registered') ? '¡Cuenta creada exitosamente! Ahora puedes iniciar sesión.' : '')}
           </div>
           <div className="campo">
             <label htmlFor="identificador">Usuario o correo electrónico</label>

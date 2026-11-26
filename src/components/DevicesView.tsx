@@ -48,18 +48,20 @@ export function DevicesView() {
         <div className="table-wrap">
           <table className="motrix-table">
             <thead>
-              <tr><th>ID</th><th>Nombre</th><th>Estado</th><th>Registrado</th></tr>
+              <tr><th>ID</th><th>Nombre</th><th>Código</th><th>Topic</th><th>Estado</th><th>Registrado</th></tr>
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={4} className="empty-state">Cargando dispositivos…</td></tr>
+                <tr><td colSpan={6} className="empty-state">Cargando dispositivos…</td></tr>
               ) : dispositivos.length === 0 ? (
-                <tr><td colSpan={4} className="empty-state">Todavía no hay dispositivos registrados.</td></tr>
+                <tr><td colSpan={6} className="empty-state">Todavía no hay dispositivos registrados.</td></tr>
               ) : (
                 dispositivos.map((d) => (
                   <tr key={d.id}>
                     <td><span className="mono">#{d.id}</span></td>
                     <td><strong>{d.nombre}</strong></td>
+                    <td><span className="mono">{d.codigo}</span></td>
+                    <td><span className="mono">{d.topicBase}</span></td>
                     <td>
                       <span className={`status-pill ${d.estado === 'Conectado' ? 'online' : 'idle'}`}>
                         {d.estado === 'Conectado' ? '● CONECTADO' : '○ DESCONECTADO'}
@@ -92,6 +94,8 @@ export function DevicesView() {
 
 function DeviceForm({ onCancel, onSaved }: { onCancel: () => void; onSaved: () => Promise<void> }) {
   const [nombre, setNombre] = useState('')
+  const [codigo, setCodigo] = useState('')
+  const [topicBase, setTopicBase] = useState('')
   const [estado, setEstado] = useState<string>('Desconectado')
   const [error, setError] = useState('')
   const [saving, setSaving] = useState(false)
@@ -100,9 +104,11 @@ function DeviceForm({ onCancel, onSaved }: { onCancel: () => void; onSaved: () =
     event.preventDefault()
     setError('')
     if (!nombre.trim()) return setError('El nombre del dispositivo es obligatorio.')
+    if (!codigo.trim()) return setError('El código del dispositivo es obligatorio.')
+    if (!topicBase.trim()) return setError('El topic del dispositivo es obligatorio.')
     setSaving(true)
     try {
-      await api.dispositivos.create({ nombre: nombre.trim(), estado })
+      await api.dispositivos.create({ nombre: nombre.trim(), codigo: codigo.trim(), topicBase: topicBase.trim(), estado })
       await onSaved()
     } catch (e) {
       setError(errorMessage(e))
@@ -115,6 +121,14 @@ function DeviceForm({ onCancel, onSaved }: { onCancel: () => void; onSaved: () =
       <label className="full">
         Nombre *
         <input value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Ej. ESP32-MOTRIX-01" autoFocus required />
+      </label>
+      <label className="full">
+        Código *
+        <input value={codigo} onChange={(e) => setCodigo(e.target.value)} placeholder="Ej. motrix-device-01" required />
+      </label>
+      <label className="full">
+        Topic *
+        <input value={topicBase} onChange={(e) => setTopicBase(e.target.value)} placeholder="Ej. motrix/devices/01" required />
       </label>
       <label className="full">
         Estado

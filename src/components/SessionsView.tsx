@@ -55,6 +55,18 @@ export function SessionsView({ pacientes, activeId }: { pacientes: Paciente[]; a
             onChange={(e) => setQuery(e.target.value)}
           />
           <span className="module-count" aria-live="polite">{filtered.length} sesión(es)</span>
+          <button
+            type="button"
+            className="module-btn"
+            onClick={() => {
+              const link = document.createElement('a')
+              link.href = '/api/exportar/sesiones.xlsx'
+              link.download = 'sesiones-motrix.xlsx'
+              link.click()
+            }}
+          >
+            Exportar Excel
+          </button>
         </div>
 
         {error && (

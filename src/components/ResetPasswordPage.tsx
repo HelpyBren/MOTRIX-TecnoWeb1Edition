@@ -41,8 +41,12 @@ export function ResetPasswordPage() {
     setLoading(true)
 
     try {
-      // Call the reset password API with token
-      // For now, just show success
+      if (!token) {
+        setError('No se ha proporcionado un token válido.')
+        setLoading(false)
+        return
+      }
+      await api.auth.reset(token, password)
       setSuccess(true)
     } catch (err) {
       setError(errorMessage(err))

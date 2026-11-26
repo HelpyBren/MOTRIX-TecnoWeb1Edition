@@ -25,6 +25,8 @@ export function PatientsView({ pacientes, loading, error, activeId, onSelect, on
   const [editing, setEditing] = useState<Paciente | null>(null)
   const { notice, show } = useNotice()
 
+  const [deleting, setDeleting] = useState<Paciente | null>(null)
+
   const filtered = useMemo(() => {
     const q = normalize(query.trim())
     if (!q) return pacientes
@@ -48,13 +50,14 @@ export function PatientsView({ pacientes, loading, error, activeId, onSelect, on
   }
 
   async function remove(paciente: Paciente) {
-    if (!window.confirm(`¿Eliminar a ${paciente.nombre} y todas sus sesiones?`)) return
     try {
       await api.pacientes.remove(paciente.id)
       show('success', 'Paciente eliminado.')
       await onReload()
     } catch (e) {
       show('error', errorMessage(e))
+    } finally {
+      setDeleting(null)
     }
   }
 
@@ -137,7 +140,7 @@ export function PatientsView({ pacientes, loading, error, activeId, onSelect, on
                           {p.id === activeId ? 'Activo' : 'Seleccionar'}
                         </button>
                         <button type="button" className="table-btn" onClick={() => setEditing(p)}>Editar</button>
-                        <button type="button" className="table-btn danger" onClick={() => void remove(p)}>Eliminar</button>
+                        <button type="button" className="table-btn danger" onClick={() => setDeleting(p)}>Eliminar</button>
                       </div>
                     </td>
                   </tr>
@@ -151,6 +154,18 @@ export function PatientsView({ pacientes, loading, error, activeId, onSelect, on
       {(creating || editing) && (
         <Modal title={editing ? 'Editar paciente' : 'Nuevo paciente'} onClose={closeModal}>
           <PatientForm initial={editing ?? undefined} onSubmit={save} onCancel={closeModal} />
+        </Modal>
+      )}
+
+      {deleting && (
+        <Modal title="Eliminar paciente" onClose={() => setDeleting(null)}>
+          <p>¿Eliminar a {deleting.nombre} y todas sus sesiones?</p>
+          <div className="form-actions">
+            <button type="button" className="module-btn" onClick={() => setDeleting(null)}>Cancelar</button>
+            <button type="button" className="module-btn danger" onClick={() => void remove(deleting)}>
+              Eliminar
+            </button>
+          </div>
         </Modal>
       )}
     </div>

@@ -5,6 +5,7 @@ import type {
   PacienteInput,
   Sesion,
   SesionInput,
+  Usuario,
 } from './types'
 
 // En local usa el proxy de Vite (/api -> http://localhost:3001/api).
@@ -12,6 +13,11 @@ import type {
 const API_URL =
   (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/+$/, '') ||
   '/api'
+
+// CSRF protection header required by backend
+const AUTH_HEADERS = {
+  'X-Requested-With': 'MotrixWeb',
+}
 
 export class ApiError extends Error {}
 
@@ -24,7 +30,12 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   try {
     response = await fetch(`${API_URL}${path}`, {
       ...init,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...AUTH_HEADERS,
+        ...init.headers,
+      },
+      credentials: 'include', // Include cookies for session
     })
   } catch {
     throw new ApiError(
@@ -49,6 +60,20 @@ const json = (method: string, data: unknown): RequestInit => ({
 })
 
 export const api = {
+  // Authentication endpoints
+  auth: {
+    login: (data: { identificador: string; password: string }) =>
+      request<{ usuario: Usuario }>('/auth/login', json('POST', data)),
+    logout: () => request<{ ok: boolean }>('/auth/logout', { method: 'POST' }),
+    register: (data: { nombre: string; usuario: string; correo: string; password: string }) =>
+      request<{ mensaje: string }>('/auth/registro', json('POST', data)),
+    recover: (correo: string) =>
+      request<{ mensaje: string }>('/auth/recuperar', json('POST', { correo })),
+    reset: (token: string, password: string) =>
+      request<{ mensaje: string }>('/auth/restablecer', json('POST', { token, password })),
+    me: () => request<{ usuario: Usuario | null }>('/auth/me', { method: 'GET' }),
+  },
+
   pacientes: {
     list: () => request<Paciente[]>('/pacientes'),
     create: (data: PacienteInput) => request<Paciente>('/pacientes', json('POST', data)),
