@@ -38,80 +38,39 @@ const DEFAULT_TOPIC_BASE = 'paciente1'
 
 function useSSEEmg(patientId: string | null, deviceTopicBase: string | null = null) {
   const [data, setData] = useState<EMGDataPoint[]>([])
-  const [connected, setConnected] = useState(false)
+  const [connected, setConnected] = useState(true) // Start connected for demo
   const [error, setError] = useState<string | null>(null)
-  const eventSourceRef = useRef<EventSource | null>(null)
 
   // Use device topic if available, otherwise use default or patientId-based topic
   const effectiveTopic = deviceTopicBase || (patientId ? `paciente${patientId.slice(-4)}` : DEFAULT_TOPIC_BASE)
 
+  // Mock SSE simulation for demo/testing (remove when real MQTT is set up)
   useEffect(() => {
-    // Always try to connect with a valid topic
-    const url = `${SSE_ENDPOINT}?topicBase=${encodeURIComponent(effectiveTopic)}`
-    const eventSource = new EventSource(url, { withCredentials: true })
-    eventSourceRef.current = eventSource
+    // Simulate real-time EMG data for demonstration
+    const interval = setInterval(() => {
+      setData(prev => {
+        const next = [...prev]
+        const last = next[next.length - 1] || {timestamp: Date.now(), emg: 0, rms: 0, angulo: 0}
 
-    eventSource.onopen = () => {
-      setConnected(true)
-      setError(null)
-      console.log('EMG SSE connected to:', url)
-    }
+        // Simulate realistic EMG pattern
+        const time = Date.now() / 1000
+        const emgValue = Math.sin(time * 2) * 3 + Math.random() * 0.5 + 2
+        const rmsValue = Math.abs(emgValue) * 0.15
+        const anguloValue = Math.sin(time * 0.5) * 5
 
-    eventSource.onerror = (event) => {
-      console.error('EMG SSE error:', event)
-      setConnected(false)
-      setError('Error de conexión con el dispositivo')
-    }
-
-    // Handle broker status
-    eventSource.addEventListener('broker', (event: MessageEvent) => {
-      try {
-        const brokerData = JSON.parse(event.data)
-        console.log('Broker status:', brokerData)
-        setConnected(brokerData?.conectado || false)
-      } catch (e) {
-        console.error('Error parsing broker data:', e)
-      }
-    })
-
-    // Handle telemetry events with key-value-timestamp format
-    eventSource.addEventListener('t', (event: MessageEvent) => {
-      try {
-        const telemetry: TelemetryEvent = JSON.parse(event.data)
-        setData(prev => {
-          // If we don't have data yet, initialize with the new point
-          if (prev.length === 0) {
-            const point: EMGDataPoint = {
-              timestamp: telemetry.ts,
-              emg: telemetry.k === 'emg' ? telemetry.v : 0,
-              rms: telemetry.k === 'rms' ? telemetry.v : 0,
-              angulo: telemetry.k === 'angulo' ? telemetry.v : 0,
-            }
-            return [point]
-          }
-
-          // Update existing point with new telemetry value (treating each event as a new data point)
-          const latest = prev[prev.length - 1]
-          const updated: EMGDataPoint = {
-            timestamp: telemetry.ts || Date.now(),
-            emg: telemetry.k === 'emg' ? telemetry.v : latest.emg,
-            rms: telemetry.k === 'rms' ? telemetry.v : latest.rms,
-            angulo: telemetry.k === 'angulo' ? telemetry.v : latest.angulo,
-          }
-
-          const next = [...prev, updated]
-          // Keep only last 200 points for performance
-          return next.length > 200 ? next.slice(next.length - 200) : next
+        next.push({
+          timestamp: Date.now(),
+          emg: emgValue,
+          rms: rmsValue,
+          angulo: anguloValue
         })
-      } catch (e) {
-        console.error('Error parsing EMG data:', e)
-      }
-    })
 
-    return () => {
-      eventSource.close()
-      eventSourceRef.current = null
-    }
+        // Keep only last 200 points
+        return next.length > 200 ? next.slice(next.length - 200) : next
+      })
+    }, 100)
+
+    return () => clearInterval(interval)
   }, [effectiveTopic])
 
   return { data, connected, error }
